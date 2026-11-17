@@ -5,6 +5,8 @@ const { join } = require("node:path");
 const fs = require("node:fs/promises");
 const dotEnv = require("dotenv");
 const { routerCorsi } = require("./routes/corsi.route");
+const { routerSoci } = require("./routes/soci.route");
+
 
 dotEnv.config(join(__dirname, ".env"));                                                         //-> percorso del dotEnv 
 
@@ -31,6 +33,7 @@ AppDataSource.initialize()
 
         // TODO 2: montaggio rotte 
         app.use("/api/corsi", routerCorsi);
+        app.use("/api/soci", routerSoci);
 
         // TODO 3: gestore errori
 
