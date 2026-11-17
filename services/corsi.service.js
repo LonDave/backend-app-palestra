@@ -18,6 +18,12 @@ const CorsiSchema = z.object({
     posti: z.number().int().positive()
 });
 
+// schema zod per metodi get:id
+const IdSchema = z.object({
+    id: z.coerce.number().int().positive()                                                              //-> converte da stringa a numero
+});
+
+
 /* 
     serve una funzione per evitare di eseguirlo quando il modulo viene caricato siccome "initialize()"
     in quel momento non è stato ancora eseguito ed andrebbe in errore
@@ -34,6 +40,9 @@ const trovaCorsi = async (filtri = {}) => {
 };
 
 // TODO: singolo corso
+const trovaCorsoById = async (id) => {
+    return repoCorsi().findOneBy({ id });                       //-> null se non esiste
+};
 
 
 // TODO: creazione
@@ -45,8 +54,9 @@ const trovaCorsi = async (filtri = {}) => {
 module.exports = {
     FiltriCorsiSchema,
     CorsiSchema,
+    IdSchema,
     trovaCorsi,
+    trovaCorsoById,
     // creaCorso,
-    // trovaCorsoById,
     // eliminaCorso
 }
