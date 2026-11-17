@@ -5,9 +5,7 @@ const { AppDataSource } = require("../config/typeorm.conf");
 // schema zod per i metodi get/delete
 const FiltriSociSchema = z.object({
     name: z.string().trim().min(1, "Inserire un nome").max(125).optional(),                             //-> necessario che siano optional per una corretta validazione
-    istruttore: z.string().trim().min(1, "Inserire un istruttore").max(125).optional(),
-    livello: z.enum(["base", "intermedio", "avanzato"]).optional(),
-    posti: z.coerce.number().int().positive().optional()                                                //-> forza a numero per avere un filtro numerico
+    email: z.string().trim().min(1, "Inserire una mail").max(125).optional(),                             //-> necessario che siano optional per una corretta validazione
 });
 
 /* 

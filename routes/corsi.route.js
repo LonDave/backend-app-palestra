@@ -29,8 +29,8 @@ router.get("/:id", async (req, res) => {
     res.status(200).json(corso);                                            //-> restituisce statusCode e JSON
 });
 
-// * DONE: creazione corso
-// TODO: testare il corretto funzionamento
+// * DONE: permette di creare un corso
+// TODO: implementare verifica per evitare doppio corso con campi uguali
 router.post("/", async (req, res) => {
     const risultato = CorsiSchema.safeParse(req.body);                      //-> non lancia eccezzioni, effettua la validazione dei dati
 
@@ -39,11 +39,11 @@ router.post("/", async (req, res) => {
     };
 
     const corso = await creaCorso(risultato.data);                          //-> al services passa solo dati validati {Corso}
+
     res.status(201).json(corso);                                            //-> restituisce statusCode e JSON
 });
 
-// * DONE: eliminazione corso per id
-// TODO: testare il corretto funzionamento
+// * DONE: permette di eliminare un corso per id
 router.delete("/:id", async (req, res) => {
     const risultato = IdSchema.safeParse(req.params);                       //-> effettua la validazione dei dati passati come params
 

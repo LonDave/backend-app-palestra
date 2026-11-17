@@ -30,8 +30,7 @@ const IdSchema = z.object({
 */
 const repoCorsi = () => AppDataSource.getRepository("Corso");
 
-// * DONE: Visualizzazione di tutti i corsi e possibilità di  query -> es: "?livello=base"
-// * DONE: tutti i corsi in ordine alfabetico 
+// * DONE: Visualizzazione di tutti i corsi in ordine alfabetico e possibilità di  query -> es: "?livello=base"
 const trovaCorsi = async (filtri = {}) => {
     return repoCorsi().find({
         where: filtri,                                                                                  //-> prende i valori che corrispondono ai filtri
@@ -39,16 +38,27 @@ const trovaCorsi = async (filtri = {}) => {
     });
 };
 
-// TODO: singolo corso
+// * DONE: ricerca del singolo corso per ID
 const trovaCorsoById = async (id) => {
-    return repoCorsi().findOneBy({ id });                       //-> null se non esiste
+    return repoCorsi().findOneBy({ id });                                                               //-> null se non esiste
 };
 
 
-// TODO: creazione
+// * DONE: permette di creare un corso
+// TODO: verificare se il corso sia già presente in db in caso non permette l'inserimento
+const creaCorso = async (dati) => {
+    const corso = repoCorsi().create(dati);
+    return repoCorsi().save(corso);
+}
 
 
-// TODO: eliminazione
+// * DONE: permette di eliminare un corso per ID
+const eliminaCorso = async (id)=>{
+    const corso = await trovaCorsoById(id);
+    if(!corso) return null;
+    await repoCorsi().remove(corso);
+    return corso;
+}
 
 // export
 module.exports = {
@@ -57,6 +67,6 @@ module.exports = {
     IdSchema,
     trovaCorsi,
     trovaCorsoById,
-    // creaCorso,
-    // eliminaCorso
+    creaCorso,
+    eliminaCorso
 }
