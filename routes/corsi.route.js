@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
     const risultato = FiltriCorsiSchema.safeParse(req.query);               //-> non lancia eccezioni, effettua la validazione dei dati serve per es: /api/corsi?livello=base
 
     if (!risultato.success) {                                               //-> se la validazione non avviene si ritorna 400 con errore
-        return res.status(400).json({ errori: risultato.error.issues });    //-> mostra l'issue dell'errore 
+        return res.status(400).json({ errore: "Errore di ricerca errata" });//-> errore personalizzato, ci entra quando non si rispetta lo schema zod 
     };
 
     const corso = await trovaCorsi(risultato.data);                         //-> al services passa solo dati validati (query)
@@ -22,13 +22,13 @@ router.get("/:id", async (req, res) => {
     const risultato = IdSchema.safeParse(req.params);                       //-> effettua la validazione dei dati passati come params
 
     if (!risultato.success) {
-        return res.status(400).json({ errori: risultato.error.issues });    //-> mostra l'issue dell'errore
+        return res.status(400).json({ errore: "Input richiesto number" });  //-> errore personalizzato, ci entra quando non si rispetta lo schema zod
     };
 
     const corso = await trovaCorsoById(risultato.data.id);                  //-> al services passa solo dati validati (id)
 
     if (!corso) {
-        return res.status(400).json({ errore: "Corso non trovato" });
+        return res.status(404).json({ errore: "Corso non trovato" });       //-> errore personalizzato, ci entra quando non esiste un corso
     };
 
     res.status(200).json(corso);                                            //-> restituisce statusCode e JSON
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
     const risultato = CorsiSchema.safeParse(req.body);                      //-> non lancia eccezioni, effettua la validazione dei dati
 
     if (!risultato.success) {                                               //-> se la validazione non avviene si ritorna 400 con errore
-        return res.status(400).json({ errori: risultato.error.issues });    //-> mostra l'issue dell'errore
+        return res.status(400).json({ errore: "Body non valido" });         //-> errore personalizzato, ci entra quando non si rispetta lo schema zod
     };
 
     const corso = await creaCorso(risultato.data);                          //-> al services passa solo dati validati {Corso}
@@ -56,7 +56,7 @@ router.delete("/:id", async (req, res) => {
     const risultato = IdSchema.safeParse(req.params);                       //-> effettua la validazione dei dati passati come params
 
     if (!risultato.success) {                                               //-> se la validazione non avviene si ritorna 400 con errore
-        return res.status(400).json({ errori: risultato.error.issues });    //-> mostra l'issue dell'errore
+        return res.status(400).json({ errore: "Input richiesto number" });  //-> mostra l'issue dell'errore
     };
 
     const corsoEliminato = await eliminaCorso(risultato.data.id);           //-> al services passa solo dati validati (id)
