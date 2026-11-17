@@ -9,8 +9,8 @@ const { routerCorsi } = require("./routes/corsi.route");
 dotEnv.config(join(__dirname, ".env"));                                                         //-> percorso del dotEnv 
 
 const app = express();                                                                          //-> express
-const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;                                //-> dichiarazione porta, se presente prende Number altrimenti la 3000
-const SEED = join(__dirname, "seeds", "seme.sql");                                              //-> percorso seed
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;                                //-> dichiarazione porta, se presente prende la "Number" altrimenti la 3000
+const SEED = join(__dirname, "seeds", "seme.sql");                                              //-> percorso del seed
 
 
 // promise, async di default
@@ -23,7 +23,7 @@ AppDataSource.initialize()
             const singleQuery = await fs.readFile(SEED).then(buff => buff.toString("utf-8"));   //-> query singola
             await ds.driver.databaseConnection.exec(singleQuery);                               //-> esegue tutte le query
         } else {
-            console.log("Database già popolato.")
+            console.log("Database già popolato.")                                               //-> altrimenti db già popolato
         };
 
         // TODO 1: middleware 

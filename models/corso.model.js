@@ -6,12 +6,12 @@ const Corso = new EntitySchema({
     name: "Corso",
     tableName: "corsi",
     columns: {
-        id: {
-            name: "id",                       //-> colonna di riferimento 
-            primary: true,
-            generated: true,
-            nullable: false,
-            type: Number
+        id: {                                   //-> nome della colonna che si crea
+            name: "id",                         //-> colonna di riferimento del seed, può essere diversa
+            primary: true,                      //-> chiave primaria
+            generated: true,                    //-> AUTO_INCREMENT
+            nullable: false,                    //-> non può essere NULL
+            type: Number                        //-> tipo
         },
         name: {
             name: "nome",
@@ -35,10 +35,10 @@ const Corso = new EntitySchema({
         }
     },
     relations: {
-        prenotazioni: {
-            target: "Prenotazione",
-            type: "one-to-many",
-            inverseSide: { name: "corso_id" }       //-> fa riferimento alla join
+        prenotazioni: {                             //-> nome della relazione, permette: "Corso.prenotazioni"
+            target: "Prenotazione",                 //-> entità di target
+            type: "one-to-many",                    //-> tipo di relazione
+            inverseSide: { name: "corso_id" }       //-> fa riferimento alla join nella sezione "many"
         }
     }
 });

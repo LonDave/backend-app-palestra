@@ -21,6 +21,15 @@ const trovaCorsi = async (filtri = {}) => {
     return repoCorsi().find({where: filtri});
 };
 
+// TODO: singolo corso
+
+
+// TODO: creazione
+
+
+// TODO: eliminazione
+
+// export
 module.exports = {
     CorsiSchema,
     trovaCorsi,
