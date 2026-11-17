@@ -2,9 +2,9 @@
 const { z } = require("zod");
 const { AppDataSource } = require("../config/typeorm.conf");
 
-// schema zod per i metodi get/delete
+// schema zod per i metodi get
 const FiltriSociSchema = z.object({
-    name: z.string().trim().min(1, "Inserire un nome").max(125).optional(),                             //-> necessario che siano optional per una corretta validazione
+    name: z.string().trim().min(1, "Inserire un nome").max(125).optional(),                               //-> necessario che siano optional per una corretta validazione
     email: z.string().trim().min(1, "Inserire una mail").max(125).optional(),                             //-> necessario che siano optional per una corretta validazione
 });
 
@@ -14,8 +14,7 @@ const FiltriSociSchema = z.object({
 */
 const repoSoci = () => AppDataSource.getRepository("Socio");
 
-// * DONE: Visualizzazione di tutti i corsi e possibilità di  query -> es: "?livello=base"
-// * DONE: tutti i corsi in ordine alfabetico 
+// * DONE: Visualizzazione di tutti i soci in ordine alfabetico e possibilità di query -> es: "?livello=base"
 const trovaSoci = async (filtri = {}) => {
     return repoSoci().find({
         where: filtri,                                                                                  //-> prende i valori che corrispondono ai filtri
