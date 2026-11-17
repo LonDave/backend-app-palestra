@@ -1,6 +1,5 @@
 // import
 const { Router } = require("express");
-const { z } = require("zod");
 const { CorsiSchema, FiltriCorsiSchema, IdSchema, trovaCorsi, trovaCorsoById, creaCorso, eliminaCorso } = require("../services/corsi.service");
 
 const router = Router();                                                     //-> creazione router    
