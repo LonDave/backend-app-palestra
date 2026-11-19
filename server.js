@@ -6,6 +6,7 @@ const fs = require("node:fs/promises");
 const dotEnv = require("dotenv");
 const { routerCorsi } = require("./routes/corsi.route");
 const { routerSoci } = require("./routes/soci.route");
+const { HttpError } = require("./lib/http.error");
 
 
 dotEnv.config(join(__dirname, ".env"));                                                         //-> percorso del dotEnv 
@@ -36,6 +37,13 @@ AppDataSource.initialize()
         app.use("/api/soci", routerSoci);
 
         // TODO 3: gestore errori
+        app.use((err, req, res, next) => {
+            if (err instanceof HttpError) {
+                return res.status(err.status).json({ errore: err.message });
+            };
+            console.log(err);
+            res.status(500).json({ errore: "Errore interno del server" });
+        });
 
         // listen del server
         app.listen(PORT, () => {
