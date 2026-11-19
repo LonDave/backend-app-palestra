@@ -42,3 +42,7 @@ AppDataSource.initialize()
             console.log(`Server live on port: ${PORT}.`);
         });
     })
+    .catch((error) => {                                                                         //-> prende l'errore
+        console.log(`Errore durante l'inizializzazione del database: ${error}`);
+        process.exit(-1);                                                                       //-> negativo segnala err
+    })
