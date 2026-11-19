@@ -6,8 +6,10 @@ const fs = require("node:fs/promises");
 const dotEnv = require("dotenv");
 const { routerCorsi } = require("./routes/corsi.route");
 const { routerSoci } = require("./routes/soci.route");
+const { routerPrenotazioni } = require("./routes/prenotazioni.route");
 const { httpErrorMiddleware } = require("./middleware/centralError.middleware");
 
+// TODO: disabilitare x-powered-by e utilizzare cors per accettare fe solo da hhtp://localhost:5500 
 
 dotEnv.config(join(__dirname, ".env"));                                                         //-> percorso del dotEnv 
 
@@ -32,9 +34,11 @@ AppDataSource.initialize()
         // TODO 1: middleware 
         app.use(express.json());
 
-        // TODO 2: montaggio rotte 
+        // * DONE: montaggio rotte
+        // TODO: protezione delle rotte con middleware di autenticazione con API key
         app.use("/api/corsi", routerCorsi);
         app.use("/api/soci", routerSoci);
+        app.use("/api/prenotazioni", routerPrenotazioni);
 
         // *DONE: gestore centrale degli errori
         app.use(httpErrorMiddleware);
