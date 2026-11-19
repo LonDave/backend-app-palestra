@@ -6,7 +6,7 @@ const fs = require("node:fs/promises");
 const dotEnv = require("dotenv");
 const { routerCorsi } = require("./routes/corsi.route");
 const { routerSoci } = require("./routes/soci.route");
-const { HttpError } = require("./lib/http.error");
+const { httpErrorMiddleware } = require("./middleware/centralError.middleware");
 
 
 dotEnv.config(join(__dirname, ".env"));                                                         //-> percorso del dotEnv 
@@ -36,14 +36,8 @@ AppDataSource.initialize()
         app.use("/api/corsi", routerCorsi);
         app.use("/api/soci", routerSoci);
 
-        // TODO 3: gestore errori
-        app.use((err, req, res, next) => {
-            if (err instanceof HttpError) {
-                return res.status(err.status).json({ errore: err.message });
-            };
-            console.log(err);
-            res.status(500).json({ errore: "Errore interno del server" });
-        });
+        // *DONE: gestore centrale degli errori
+        app.use(httpErrorMiddleware);
 
         // listen del server
         app.listen(PORT, () => {
@@ -52,5 +46,5 @@ AppDataSource.initialize()
     })
     .catch((error) => {                                                                         //-> prende l'errore
         console.log(`Errore durante l'inizializzazione del database: ${error}`);
-        process.exit(-1);                                                                       //-> negativo segnala err
+        process.exit(1);                                                                        //-> !=0 segnala err
     })
